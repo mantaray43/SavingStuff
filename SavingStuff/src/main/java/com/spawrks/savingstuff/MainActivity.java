@@ -15,9 +15,27 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences savedPreferences = getSharedPreferences(PREFRENCES,0);
+        String savedString = savedPreferences.getString("myLastString","nothingSavedYet");
+
+        EditText e = (EditText)findViewById(R.id.littleText);
+        e.setText(savedString);
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        EditText e = (EditText)findViewById(R.id.littleText);
+        String currentString = e.getText().toString();
+
+        SharedPreferences savedPreferences = getSharedPreferences(PREFRENCES,0);
+        SharedPreferences.Editor editor = savedPreferences.edit();
+
+        editor.putString("myLastString",currentString);
+        editor.commit();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
